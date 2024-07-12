@@ -33,7 +33,7 @@
       <div class="flex-container flex-row field-width" >
         <mat-label class="label-width"> Password </mat-label>
         <mat-form-field  class="form-field-width">
-          <input type="password" matInput [formControl]="passwordFormControl">
+          <input type="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;" matInput [formControl]="passwordFormControl">
       
           @if (passwordFormControl.hasError('required')) {
           <mat-error>Password is <strong>required</strong></mat-error>
@@ -49,7 +49,7 @@
         <mat-label class="label-width"> Confirm Password
         </mat-label>
         <mat-form-field class="form-field-width">
-          <input type="password" matInput [formControl]="confirmPasswordFormControl">
+          <input type="password" placeholder="&#9679;&#9679;&#9679;&#9679;&#9679;" matInput [formControl]="confirmPasswordFormControl">
           @if (this.confirmPasswordFormControl.hasError('required')) {
           <mat-error>Confirm password is <strong>required</strong></mat-error>
           }

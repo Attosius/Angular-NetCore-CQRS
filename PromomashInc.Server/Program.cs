@@ -9,6 +9,7 @@ using PromomashInc.DataAccess.Context;
 using PromomashInc.DataAccess.Models;
 using System.Net;
 using System.Net.Security;
+using PromomashInc.Core.Models;
 using PromomashInc.Mapper;
 
 namespace PromomashInc.Server
@@ -83,6 +84,8 @@ namespace PromomashInc.Server
             builderServices.AddSingleton(AutoMapperConfig.Configure().CreateMapper());
           
             builderServices.AddScoped<ICustomPasswordHasher, CustomPasswordHasher>();
+            builderServices.AddScoped<IUserRepository, UserRepository>();
+            builderServices.AddScoped<IDictionaryRepository, DictionaryRepository>();
         }
     }
 }

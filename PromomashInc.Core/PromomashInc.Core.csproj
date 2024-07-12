@@ -3,11 +3,18 @@
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Cryptography.KeyDerivation" Version="8.0.7" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PromomashInc.Core.Models\PromomashInc.Core.Models.csproj" />
+    <ProjectReference Include="..\PromomashInc.DataAccess.Context\PromomashInc.DataAccess.Context.csproj" />
+    <ProjectReference Include="..\PromomashInc.EntitiesDto\PromomashInc.EntitiesDto.csproj" />
+    <ProjectReference Include="..\PromomashInc.Helpers\PromomashInc.Helpers.csproj" />
   </ItemGroup>
 
 </Project>

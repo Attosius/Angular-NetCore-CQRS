@@ -1,10 +1,7 @@
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using AutoMapper.QueryableExtensions;
-using PromomashInc.DataAccess.Context;
 using PromomashInc.EntitiesDto;
 using PromomashInc.Helpers.FunctionalResult;
+using PromomashInc.Core.Models;
 
 
 namespace PromomashInc.Server.Controllers
@@ -15,30 +12,21 @@ namespace PromomashInc.Server.Controllers
     {
 
         private readonly ILogger<DictionaryController> _logger;
-        private readonly UserDataContext _userDataContext;
-        private readonly IMapper _mapper;
+        private readonly IDictionaryRepository _dictionaryRepository;
 
         public DictionaryController(
             ILogger<DictionaryController> logger,
-            UserDataContext userDataContext,
-            IMapper mapper
+            IDictionaryRepository dictionaryRepository
             )
         {
             _logger = logger;
-            _userDataContext = userDataContext;
-            _mapper = mapper;
+            _dictionaryRepository = dictionaryRepository;
         }
 
         [HttpGet(nameof(GetCountries))]
         public async Task<Result<List<CountryDto>>> GetCountries()
         {
-            var result = await TryCatchExecuterAsync(async () =>
-            {
-                var data = await _userDataContext.Countries
-                    .ProjectTo<CountryDto>(_mapper.ConfigurationProvider)
-                    .ToListAsync();
-                return data;
-            });
+            var result = await TryCatchExecuterAsync(async () => await _dictionaryRepository.GetCountries());
             return result;
         }  
         
@@ -47,11 +35,12 @@ namespace PromomashInc.Server.Controllers
         {
             Thread.Sleep(1000); // for loader
             var result = await TryCatchExecuterAsync(async () =>
-                await _userDataContext.Provinces
-                .ProjectTo<ProvinceDto>(_mapper.ConfigurationProvider)
-                .ToListAsync());
-            return result;
+            {
+                var data = await _dictionaryRepository.GetProvince(countryCode);
+                return data;
+            });
 
+            return result;
         }
 
         private async Task<Result<T>> TryCatchExecuterAsync<T>(Func<Task<T>> func)

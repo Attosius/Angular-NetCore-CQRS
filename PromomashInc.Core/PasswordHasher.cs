@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using System.Security.Cryptography;
+using PromomashInc.Core.Models;
 
 namespace PromomashInc.Core
 {
@@ -16,10 +17,5 @@ namespace PromomashInc.Core
                 numBytesRequested: 256 / 8));
             return hash;
         }
-    }
-
-    public interface ICustomPasswordHasher
-    {
-        string GetHash(string password);
     }
 }
