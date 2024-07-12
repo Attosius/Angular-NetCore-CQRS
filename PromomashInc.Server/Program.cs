@@ -1,4 +1,3 @@
-using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
@@ -6,9 +5,6 @@ using NLog;
 using NLog.Web;
 using PromomashInc.Core;
 using PromomashInc.DataAccess.Context;
-using PromomashInc.DataAccess.Models;
-using System.Net;
-using System.Net.Security;
 using PromomashInc.Core.Models;
 using PromomashInc.Mapper;
 

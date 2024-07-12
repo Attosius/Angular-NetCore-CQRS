@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
 using PromomashInc.Core.Models;
 using PromomashInc.DataAccess.Context;
 using PromomashInc.EntitiesDto;

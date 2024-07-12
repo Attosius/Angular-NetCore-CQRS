@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-
-namespace PromomashInc.DataAccess.Models
+﻿namespace PromomashInc.DataAccess.Models
 {
     public class User
     {

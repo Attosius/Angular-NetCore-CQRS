@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using PromomashInc.DataAccess.Models;
-using System;
-using System.Runtime.InteropServices.ComTypes;
 
 namespace PromomashInc.DataAccess.Context;
 

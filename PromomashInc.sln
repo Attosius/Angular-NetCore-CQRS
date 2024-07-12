@@ -7,13 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PromomashInc.Server", "Prom
 EndProject
 Project("{54A90642-561A-4BB1-A94E-469ADEE60C69}") = "promomashinc.client", "promomashinc.client\promomashinc.client.esproj", "{3B6FB6CF-3702-4E17-AAB4-F8854DB24849}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PromomashInc.Helpers", "PromomashInc.Helpers\PromomashInc.Helpers.csproj", "{7F6A0705-7144-41D4-AD4E-16C76E16A3EF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PromomashInc.Helpers", "PromomashInc.Helpers\PromomashInc.Helpers.csproj", "{7F6A0705-7144-41D4-AD4E-16C76E16A3EF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PromomashInc.DataAccess.Models", "PromomashInc.DataAccess.Models\PromomashInc.DataAccess.Models.csproj", "{80472DC6-9F0A-4C21-9180-743DAF73A96C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PromomashInc.DataAccess.Models", "PromomashInc.DataAccess.Models\PromomashInc.DataAccess.Models.csproj", "{80472DC6-9F0A-4C21-9180-743DAF73A96C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PromomashInc.DataAccess.Context", "PromomashInc.DataAccess.Context\PromomashInc.DataAccess.Context.csproj", "{918D37BF-AFDE-4D5B-9CD3-E7DB53C1ED2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PromomashInc.DataAccess.Context", "PromomashInc.DataAccess.Context\PromomashInc.DataAccess.Context.csproj", "{918D37BF-AFDE-4D5B-9CD3-E7DB53C1ED2E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PromomashInc.EntitiesDto", "PromomashInc.EntitiesDto\PromomashInc.EntitiesDto.csproj", "{C6BD1BC8-7E68-42FC-AAB7-4F12FB3B2F55}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PromomashInc.EntitiesDto", "PromomashInc.EntitiesDto\PromomashInc.EntitiesDto.csproj", "{C6BD1BC8-7E68-42FC-AAB7-4F12FB3B2F55}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Hosts", "_Hosts", "{17E91B69-4947-446D-AF27-6F1BA4AB0835}"
 EndProject
@@ -21,7 +21,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PromomashInc.Core", "Promom
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PromomashInc.Core.Models", "PromomashInc.Core.Models\PromomashInc.Core.Models.csproj", "{5988187B-E108-4CCC-AE7A-9A51688231BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PromomashInc.Mapper", "PromomashInc.Mapper\PromomashInc.Mapper.csproj", "{B61B3844-D4D1-4104-B856-90B570136DE5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PromomashInc.Mapper", "PromomashInc.Mapper\PromomashInc.Mapper.csproj", "{B61B3844-D4D1-4104-B856-90B570136DE5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PromomashInc.Tests", "PromomashInc.Tests\PromomashInc.Tests.csproj", "{A25168F5-E7F2-4081-9678-E2736B56CC59}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -67,6 +69,10 @@ Global
 		{B61B3844-D4D1-4104-B856-90B570136DE5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B61B3844-D4D1-4104-B856-90B570136DE5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B61B3844-D4D1-4104-B856-90B570136DE5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A25168F5-E7F2-4081-9678-E2736B56CC59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A25168F5-E7F2-4081-9678-E2736B56CC59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A25168F5-E7F2-4081-9678-E2736B56CC59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A25168F5-E7F2-4081-9678-E2736B56CC59}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

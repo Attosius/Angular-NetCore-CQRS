@@ -1,12 +1,9 @@
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using PromomashInc.DataAccess.Context;
-using PromomashInc.DataAccess.Models;
 using PromomashInc.EntitiesDto;
 using PromomashInc.Helpers.FunctionalResult;
-using PromomashInc.Core;
 using PromomashInc.Core.Models;
 
 namespace PromomashInc.Server.Controllers
