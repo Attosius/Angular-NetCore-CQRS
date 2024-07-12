@@ -1,0 +1,79 @@
+<mat-card>
+    <mat-card-header>
+
+        <mat-card-title>
+            <div class="flex-container flex-row" style="width: 500px;">
+                <h2 style=" flex-grow: 2; ">Step 2</h2>
+            </div>
+
+        </mat-card-title>
+    </mat-card-header>
+    <mat-card-content>
+        <form class="example-form  flex-container flex-column">
+            <div class="flex-container flex-row" style="width: 500px;">
+                <mat-label style="flex-grow: 1; width: 100px;     text-align: right;margin-right: 20px;"> Country
+                </mat-label>
+                <mat-form-field style=" flex-grow: 2; ">
+                    <mat-label>Select Country</mat-label>
+                    <mat-select #country [formControl]="countryFormControl"
+                        (selectionChange)='onCountrySelected(country.value)'>
+                        @for (country of countries; track country) {
+                            <mat-option [value]="country.Code">{{country.DisplayText}}</mat-option>
+                        }
+                    </mat-select>
+                    @if (countryFormControl.hasError('required')) {
+                    <mat-error>Country is required field</mat-error>
+                    }
+
+                </mat-form-field>
+            </div>
+
+
+            <div class="flex-container flex-row" style="width: 500px;">
+                <mat-label style="flex-grow: 1; width: 100px;    text-align: right;margin-right: 20px;"> Province
+                </mat-label>
+                <mat-form-field style=" flex-grow: 2; ">
+                    <mat-label>{{!!this.selectedCountry ? "Select province" : "Select country first"}}</mat-label>
+                    <mat-select #province [formControl]="provinceFormControl">
+                        <ng-container *ngIf="!isLoading; else loading">
+                            @for (province of provincies; track province) {
+                            <mat-option [value]="province.Code">{{province.DisplayText}}</mat-option>
+                            }
+                        </ng-container>
+
+
+                        <ng-template #loading>
+                            <!-- While waiting for the options to load show a single, disabled option with a loading spinner -->
+                            <mat-option disabled>
+                                <div class="deferred-select-placeholder-container flex-container flex-row">
+                                    <span>Loading...</span>
+                                    <mat-spinner class="spinner" diameter="20"></mat-spinner>
+                                </div>
+                            </mat-option>
+                        </ng-template>
+                    </mat-select>
+
+
+                    @if (provinceFormControl.hasError('required')) {
+                        <mat-error>Province is required field</mat-error>
+                    }
+                </mat-form-field>
+                <!-- <div> {{this.isLoading}}</div> -->
+            </div>
+
+        </form>
+        <div class="flex-container flex-row">
+            <button mat-raised-button color="accent" matTooltip="Go to step 2" matTooltipPosition="after"
+                style="margin-right: 20px;" (click)="gotoStep1()">
+                Back
+            </button>
+
+            <button mat-flat-button color="primary" matTooltip="Save" matTooltipPosition="after" (click)="save()">
+                Save
+            </button>
+        </div>
+    </mat-card-content>
+    <!-- <mat-card-actions align="end">
+      <button mat-raised-button color="primary">Read More</button>
+    </mat-card-actions> -->
+</mat-card>

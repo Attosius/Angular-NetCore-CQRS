@@ -1,0 +1,95 @@
+<!-- <h1 class="mat-display-1">Login</h1> -->
+<img mat-card-avatar class="logo" src="../../assets/pm-logo.png" alt="Promomash" />
+
+
+<mat-card>
+  <mat-card-header>
+
+    <mat-card-title>
+      <div class="flex-container flex-row" style="width: 500px;">
+          <h2 style=" flex-grow: 2; ">Step 1</h2>
+      </div>
+      
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form class="example-form  flex-container flex-column">
+      <div class="flex-container flex-row" style="width: 500px;">
+        <mat-label style="flex-grow: 1; width: 100px;     text-align: right;margin-right: 20px;"> Login </mat-label>
+        <mat-form-field style=" flex-grow: 2; ">
+          <input type="text" matInput [formControl]="loginFormControl" [errorStateMatcher]="matcher">
+          @if (loginFormControl.hasError('required')) {
+          <mat-error>Login is <strong>required</strong></mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <div class="flex-container flex-row" style="width: 500px;">
+        <mat-label style="flex-grow: 1; width: 100px;    text-align: right;margin-right: 20px;"> Password </mat-label>
+        <mat-form-field style=" flex-grow: 2;">
+          <input type="password" matInput [formControl]="passwordFormControl" [errorStateMatcher]="matcher">
+          @if (passwordFormControl.hasError('required')) {
+          <mat-error>Password is <strong>required</strong></mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <div class="flex-container flex-row" style="width: 500px;">
+        <mat-label style="flex-grow: 1; width: 100px;    text-align: right;margin-right: 20px;"> Confirm Password
+        </mat-label>
+        <mat-form-field style=" flex-grow: 2; ">
+          <input type="password" matInput [formControl]="confirmPasswordFormControl" [errorStateMatcher]="matcher">
+          @if (confirmPasswordFormControl.hasError('required')) {
+          <mat-error>Password is <strong>required</strong></mat-error>
+          }
+        </mat-form-field>
+      </div>
+
+      <mat-checkbox style="width: 100%;" [formControl]="agreeFormControl">Agree to work for food</mat-checkbox>
+    </form>
+
+
+    <button mat-raised-button color="accent"  matTooltip="Go to step 2" matTooltipPosition="after" (click)="gotoStep2()">
+      Go to step 2
+    </button>
+  </mat-card-content>
+  <!-- <mat-card-actions align="end">
+    <button mat-raised-button color="primary">Read More</button>
+  </mat-card-actions> -->
+</mat-card>
+
+<div class="flex-container">
+  <div>
+    <button mat-raised-button color="primary">Raised Primary</button>
+    <button mat-raised-button color="accent">Raised Accent</button>
+    <button mat-stroked-button>Basic Stroked</button>
+    <button mat-stroked-button color="primary">Stroked Primary</button>
+  </div>
+
+  <button mat-fab>
+    <mat-icon>thumb_up</mat-icon>
+  </button>
+
+  <mat-radio-group aria-label="Select an option">
+    <mat-radio-button value="1">Option 1</mat-radio-button>
+    <mat-radio-button value="2">Option 2</mat-radio-button>
+  </mat-radio-group>
+
+  <mat-checkbox>Check me!</mat-checkbox>
+
+  <mat-form-field>
+    <mat-label>Choose a date</mat-label>
+    <input matInput [matDatepicker]="picker" />
+    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+    <mat-datepicker #picker></mat-datepicker>
+  </mat-form-field>
+
+  <!-- <mat-slider></mat-slider> -->
+
+  <button mat-flat-button color="primary" matTooltip="Info about the action" matTooltipPosition="after"
+    aria-label="Button that displays a tooltip when focused or hovered over">
+    Tooltip
+  </button>
+</div>
+
+<mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>

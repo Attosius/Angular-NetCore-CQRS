@@ -8,6 +8,24 @@ namespace PromomashInc.Server
 
         public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
 
-        public string? Summary { get; set; }
+        public string Summary { get; set; }
     }
+
+    public class CountryDto
+    {
+
+        public string Code { get; set; }
+
+        public string DisplayText { get; set; }
+    }
+
+    public class ProvinceDto
+    {
+
+        public string Code { get; set; }
+        public string ParentCode { get; set; }
+
+        public string DisplayText { get; set; }
+    }
+
 }

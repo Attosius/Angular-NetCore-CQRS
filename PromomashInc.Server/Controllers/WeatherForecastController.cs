@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using PromomashInc.Server.Context;
 
 namespace PromomashInc.Server.Controllers
 {
@@ -12,10 +13,40 @@ namespace PromomashInc.Server.Controllers
         };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private readonly BloggingContext _bloggingContext;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(
+            ILogger<WeatherForecastController> logger,
+            BloggingContext bloggingContext
+            )
         {
             _logger = logger;
+            _bloggingContext = bloggingContext;
+        }
+
+        [HttpGet(nameof(GetCountries))]
+        public IEnumerable<CountryDto> GetCountries()
+        {
+            var cou = _bloggingContext.Countries.ToList();
+            return Enumerable.Range(1, 5).Select(index => new CountryDto
+            {
+                    Code = $"Country_{index}",
+                    DisplayText = $"Country {index} "
+                })
+                .ToArray();
+        }  
+        
+        [HttpGet(nameof(GetProvince))]
+        public IEnumerable<ProvinceDto> GetProvince(string countryCode)
+        {
+            Thread.Sleep(3000);
+            return Enumerable.Range(1, 5).Select(index => new ProvinceDto()
+            {
+                    Code = $"Province_{index}",
+                    ParentCode = $"Country_{index%2 + 1}",
+                    DisplayText = $"Province {index} "
+                }).Where(o => o.ParentCode == countryCode)
+                .ToArray();
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
