@@ -2,10 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 
 interface WeatherForecast {
-  date: string;
-  temperatureC: number;
-  temperatureF: number;
-  summary: string;
+  Date: string;
+  TemperatureC: number;
+  TemperatureF: number;
+  Summary: string;
 }
 
 @Component({

@@ -7,49 +7,90 @@
 
     <mat-card-title>
       <div class="flex-container flex-row" style="width: 500px;">
-          <h2 style=" flex-grow: 2; ">Step 1</h2>
+        <h2 style=" flex-grow: 2; ">Step 1</h2>
       </div>
-      
+
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <form class="example-form  flex-container flex-column">
+    <!-- <form [formGroup]="form" class="example-form  flex-container flex-column">
+
+      <input matInput type="email" name="email"
+             placeholder="Email" formControlName="email">
+  
+      <input matInput type="password"
+             placeholder="Password" formControlName="password">
+  
+             <button [disabled]="!form.valid">
+              Login
+            </button>
+  </form> -->
+
+    <form [formGroup]="userRegistrationForm" novalidate class="example-form  flex-container flex-column">
+
       <div class="flex-container flex-row" style="width: 500px;">
         <mat-label style="flex-grow: 1; width: 100px;     text-align: right;margin-right: 20px;"> Login </mat-label>
         <mat-form-field style=" flex-grow: 2; ">
           <input type="text" matInput [formControl]="loginFormControl" [errorStateMatcher]="matcher">
+
           @if (loginFormControl.hasError('required')) {
-          <mat-error>Login is <strong>required</strong></mat-error>
-          }
+            <mat-error>Login is <strong>required</strong></mat-error>
+            }
+            @if (loginFormControl.hasError('email')) {
+            <mat-error>Login must be a valid email</mat-error>
+            }
+          <!-- {{loginFormControl.errors | json}} -->
         </mat-form-field>
       </div>
 
       <div class="flex-container flex-row" style="width: 500px;">
         <mat-label style="flex-grow: 1; width: 100px;    text-align: right;margin-right: 20px;"> Password </mat-label>
         <mat-form-field style=" flex-grow: 2;">
-          <input type="password" matInput [formControl]="passwordFormControl" [errorStateMatcher]="matcher">
+          <input type="password" matInput [formControl]="passwordFormControl">
+          <!-- {{passwordFormControl.errors | json}} -->
           @if (passwordFormControl.hasError('required')) {
           <mat-error>Password is <strong>required</strong></mat-error>
           }
+          @if (passwordFormControl.hasError('pattern')) {
+          <mat-error>Password must contains min 1 digit and min 1 uppercase letter</mat-error>
+          }
         </mat-form-field>
+
       </div>
 
       <div class="flex-container flex-row" style="width: 500px;">
         <mat-label style="flex-grow: 1; width: 100px;    text-align: right;margin-right: 20px;"> Confirm Password
         </mat-label>
         <mat-form-field style=" flex-grow: 2; ">
-          <input type="password" matInput [formControl]="confirmPasswordFormControl" [errorStateMatcher]="matcher">
-          @if (confirmPasswordFormControl.hasError('required')) {
-          <mat-error>Password is <strong>required</strong></mat-error>
+          <input type="password" matInput [formControl]="confirmPasswordFormControl">
+          @if (this.confirmPasswordFormControl.hasError('required')) {
+          <mat-error>Confirm password is <strong>required</strong></mat-error>
           }
+
+          @if (this.confirmPasswordFormControl.hasError('notsame')) {
+          <mat-error>Confirm password must be the same with password</mat-error>
+          }
+          <!-- {{confirmPasswordFormControl.errors | json}}---
+          {{passwordFormControlGroup.errors | json}} -->
         </mat-form-field>
+
       </div>
 
-      <mat-checkbox style="width: 100%;" [formControl]="agreeFormControl">Agree to work for food</mat-checkbox>
+      <mat-checkbox style="width: 100%;" [formControl]="agreeFormControl">
+        Agree to work for food
+        
+      </mat-checkbox>
+      
+      @if (agreeFormControl.hasError('required') && agreeFormControl.touched) {
+          <mat-error style="width: 100%;" >Agree is <strong>required</strong></mat-error>
+          }
+
+     
+        {{this.userRegistrationForm.invalid | json}} 
     </form>
 
 
-    <button mat-raised-button color="accent"  matTooltip="Go to step 2" matTooltipPosition="after" (click)="gotoStep2()">
+    <button mat-raised-button color="accent" matTooltip="Go to step 2" matTooltipPosition="after" (click)="gotoStep2()">
       Go to step 2
     </button>
   </mat-card-content>
