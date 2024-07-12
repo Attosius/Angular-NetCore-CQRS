@@ -3,10 +3,11 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Country, UserData } from '../../models/country';
-import { catchError, delay, finalize, map, Observable, of } from 'rxjs';
+import { catchError,  finalize, map, Observable, of } from 'rxjs';
 import { Province } from '../../models/province';
 import { Helpers } from '../../common/helpers';
-import { Result, ResultGeneric } from '../../models/Result';
+import { ToastrService } from 'ngx-toastr';
+import { Result, ResultGeneric } from '../../models/result';
 
 @Component({
 	selector: 'app-step2',
@@ -17,7 +18,6 @@ export class Step2Component implements OnInit {
 	public countryFormControl = new FormControl('', [Validators.required]);
 	public provinceFormControl = new FormControl('', [Validators.required]);
 
-	// public matcher = new MyErrorStateMatcher();
 	public selectedCountry = '';
 	public selectedProvince = '';
 	public isLoading = false;
@@ -30,7 +30,8 @@ export class Step2Component implements OnInit {
 		private router: Router,
 		private http: HttpClient,
 		private activatedRoute: ActivatedRoute,
-		private formBuilder: FormBuilder) {
+		private formBuilder: FormBuilder,
+		private toastr: ToastrService) {
 
 		this.userRegistrationForm = this.formBuilder.group({
 			countryFormControl: this.countryFormControl,
@@ -55,16 +56,14 @@ export class Step2Component implements OnInit {
 
 			map(result => {
 				if (result.IsFailure) {
-					// this.popupService.error(getBrokerProfilesResult.Message);
-					console.error(result.Exception);
+					this.errorCatch(result.Exception, result.Message);
 					return;
 				}
 
 				this.countries = result.Value.map(o => new Country(o));
 			}),
 			catchError(err => {
-				console.log('Error while get countries', err);
-				return of([]);
+				return this.errorCatch(err, 'Error while get countries');
 			}),
 			finalize(() => {
 				this.isLoading = false;
@@ -72,22 +71,21 @@ export class Step2Component implements OnInit {
 		);
 	}
 
+
 	public getProvincies(countryCode: string): Observable<any> {
 		this.isLoading = true;
 		return this.http.get<ResultGeneric<Province[]>>(`/Dictionary/GetProvince?countryCode=${countryCode}`).pipe(
 
 			map(result => {
 				if (result.IsFailure) {
-					// this.popupService.error(getBrokerProfilesResult.Message);
-					console.error(result.Exception);
+					this.errorCatch(result.Exception, result.Message);
 					return;
 				}
 
 				this.provincies = result.Value.map(o => new Province(o));
 			}),
 			catchError(err => {
-				console.log('Error while get provincies', err);
-				return of([]);
+				return this.errorCatch(err, 'Error while get provincies');
 			}),
 			finalize(() => {
 				this.isLoading = false;
@@ -123,15 +121,24 @@ export class Step2Component implements OnInit {
 		this.http.post<Result>(`/User/Save`, this.userData).pipe(
 
 			map(result => {
-				console.dir(result);
+				if (result.IsFailure) {
+					this.errorCatch(result.Exception, result.Message);
+					return;
+				}
 			}),
 			catchError(err => {
-				console.log('Error while save data', err);
-				return of([]);
+				return this.errorCatch(err, 'Error while save data');
 			}),
 			finalize(() => {
 				this.isLoading = false;
 			}),
 		).subscribe();
 	}
+	
+	private errorCatch(err: any, message: string) {
+		this.toastr.error(message);
+		console.log(message, err);
+		return of(Result.Error(message));
+	}
+
 }

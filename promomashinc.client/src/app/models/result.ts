@@ -25,6 +25,14 @@ export class Result {
         r.IsSuccess = true;
         return r;
     }
+    
+    public static Error(message: string): Result {
+        const r = new Result();
+        r.IsFailure = true;
+        r.IsSuccess = false;
+        r.Message = message;
+        return r;
+    }
 
 
     constructor(json: any = null) {

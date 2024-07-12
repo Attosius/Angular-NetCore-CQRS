@@ -50,7 +50,7 @@ namespace PromomashInc.Server.Controllers
             Thread.Sleep(1000);
             var result = await TryCatchExecuterAsync(async () =>
             {
-                var data = await _bloggingContext.Countries
+                var data = await _bloggingContext.Provinces
                     .ProjectTo<ProvinceDto>(_mapper.ConfigurationProvider)
                     .ToListAsync();
                 return data;
@@ -69,7 +69,7 @@ namespace PromomashInc.Server.Controllers
             catch (Exception e)
             {
                 _logger.LogError(e, "Results error");
-                return e.ToErrorResult<T>($"Error: {e.Message}");
+                return e.ToErrorResult<T>();
             }
         }
     }

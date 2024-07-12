@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Step1Component } from './login/step1/step1.component';
 import { Step2Component } from './login/step2/step2.component';
+import { ToastrModule } from 'ngx-toastr';
 
 @NgModule({
   declarations: [
@@ -19,12 +20,13 @@ import { Step2Component } from './login/step2/step2.component';
     Step2Component
   ],
   imports: [
-    BrowserModule, 
     AppRoutingModule,
+    BrowserModule, 
     BrowserAnimationsModule,
-    MaterialModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    MaterialModule,
+    ToastrModule.forRoot(), // ToastrModule added
   ],
   providers: [
     provideHttpClient(),
