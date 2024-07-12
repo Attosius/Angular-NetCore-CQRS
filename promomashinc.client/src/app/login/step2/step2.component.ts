@@ -125,6 +125,7 @@ export class Step2Component implements OnInit {
 					this.errorCatch(result.Exception, result.Message);
 					return;
 				}
+				this.toastr.success('User successfully created')
 			}),
 			catchError(err => {
 				return this.errorCatch(err, 'Error while save data');

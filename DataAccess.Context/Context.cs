@@ -1,26 +1,24 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using PromomashInc.DataAccess.Models;
 
-namespace PromomashInc.Server.Context;
+namespace PromomashInc.DataAccess.Context;
 
-public class BloggingContext : DbContext
+public class UserDataContext : DbContext
 {
     public DbSet<User> Users { get; set; }
     public DbSet<Country> Countries { get; set; }
     public DbSet<Province> Provinces { get; set; }
 
     public string DbPath { get; }
-    public BloggingContext() : base()
+    public UserDataContext() : base()
     {
-        //var folder = Environment.SpecialFolder.LocalApplicationData;
-        //var path = Environment.GetFolderPath(folder);
         var folder = Environment.CurrentDirectory;
         var path = Path.Combine(folder, "LocalDb");
         DbPath = Path.Join(path, "clients.db");
     }
-    public BloggingContext(DbContextOptions options) : base(options)
+
+    public UserDataContext(DbContextOptions options) : base(options)
     {
-        //var folder = Environment.SpecialFolder.LocalApplicationData;
-        //var path = Environment.GetFolderPath(folder);
         var folder = Environment.CurrentDirectory;
         var path = Path.Combine(folder, "LocalDb");
         DbPath = Path.Join(path, "clients.db");

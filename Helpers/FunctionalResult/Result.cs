@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Helpers.Extensions;
+using PromomashInc.Helpers.Extensions;
 
-namespace Helpers.FunctionalResult
+namespace PromomashInc.Helpers.FunctionalResult
 {
     public enum ResultType
     {

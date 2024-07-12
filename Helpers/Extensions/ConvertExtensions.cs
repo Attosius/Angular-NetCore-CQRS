@@ -4,7 +4,7 @@ using System.Collections.ObjectModel;
 using System.Globalization;
 using System.Linq;
 
-namespace Helpers.Extensions
+namespace PromomashInc.Helpers.Extensions
 {
     public static class ConvertExtensions
     {

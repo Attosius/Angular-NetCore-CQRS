@@ -1,13 +1,11 @@
 using AutoMapper;
-using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using PromomashInc.Server.Context;
-using PromomashInc.Server.Dto;
-using System.Security.Cryptography;
 using AutoMapper.QueryableExtensions;
-using Helpers.FunctionalResult;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using PromomashInc.DataAccess.Context;
+using PromomashInc.EntitiesDto;
+using PromomashInc.Helpers.FunctionalResult;
+
 
 namespace PromomashInc.Server.Controllers
 {
@@ -17,17 +15,17 @@ namespace PromomashInc.Server.Controllers
     {
 
         private readonly ILogger<DictionaryController> _logger;
-        private readonly BloggingContext _bloggingContext;
+        private readonly UserDataContext _userDataContext;
         private readonly IMapper _mapper;
 
         public DictionaryController(
             ILogger<DictionaryController> logger,
-            BloggingContext bloggingContext,
+            UserDataContext userDataContext,
             IMapper mapper
             )
         {
             _logger = logger;
-            _bloggingContext = bloggingContext;
+            _userDataContext = userDataContext;
             _mapper = mapper;
         }
 
@@ -36,7 +34,7 @@ namespace PromomashInc.Server.Controllers
         {
             var result = await TryCatchExecuterAsync(async () =>
             {
-                var data = await _bloggingContext.Countries
+                var data = await _userDataContext.Countries
                     .ProjectTo<CountryDto>(_mapper.ConfigurationProvider)
                     .ToListAsync();
                 return data;
@@ -50,7 +48,7 @@ namespace PromomashInc.Server.Controllers
             Thread.Sleep(1000);
             var result = await TryCatchExecuterAsync(async () =>
             {
-                var data = await _bloggingContext.Provinces
+                var data = await _userDataContext.Provinces
                     .ProjectTo<ProvinceDto>(_mapper.ConfigurationProvider)
                     .ToListAsync();
                 return data;

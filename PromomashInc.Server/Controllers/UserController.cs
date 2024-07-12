@@ -1,11 +1,13 @@
 using Microsoft.AspNetCore.Cryptography.KeyDerivation;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using PromomashInc.Server.Context;
-using PromomashInc.Server.Dto;
 using System.Security.Cryptography;
 using AutoMapper;
-using Helpers.FunctionalResult;
+using PromomashInc.DataAccess.Context;
+using PromomashInc.DataAccess.Models;
+using PromomashInc.EntitiesDto;
+using PromomashInc.Helpers.FunctionalResult;
+using PromomashInc.Core;
 
 namespace PromomashInc.Server.Controllers
 {
@@ -15,18 +17,21 @@ namespace PromomashInc.Server.Controllers
     {
        
         private readonly ILogger<UserController> _logger;
-        private readonly BloggingContext _bloggingContext;
+        private readonly UserDataContext _userDataContext;
         private readonly IMapper _mapper;
+        private readonly ICustomPasswordHasher _customPasswordHasher;
 
         public UserController(
             ILogger<UserController> logger,
-            BloggingContext bloggingContext,
-            IMapper mapper
+            UserDataContext userDataContext,
+            IMapper mapper,
+            ICustomPasswordHasher customPasswordHasher
             )
         {
             _logger = logger;
-            _bloggingContext = bloggingContext;
+            _userDataContext = userDataContext;
             _mapper = mapper;
+            _customPasswordHasher = customPasswordHasher;
         }
 
         [HttpPost(nameof(Save))]
@@ -41,23 +46,13 @@ namespace PromomashInc.Server.Controllers
 
                 var user = _mapper.Map<User>(userData);
                 var isNew = user.Id == 0;
-
-                byte[] salt = RandomNumberGenerator.GetBytes(128 / 8); // divide by 8 to convert bits to bytes
-                Console.WriteLine($"Salt: {Convert.ToBase64String(salt)}");
-
-                string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                    password: userData.Password!,
-                    salt: salt,
-                    prf: KeyDerivationPrf.HMACSHA256,
-                    iterationCount: 100000,
-                    numBytesRequested: 256 / 8));
+                
+                var hashed = _customPasswordHasher.GetHash(userData.Password);
                 user.PasswordHash = hashed;
-                Console.WriteLine($"Hashed: {hashed}");
-
-                var notes = _bloggingContext.Entry(user).State = isNew ?
+                _userDataContext.Entry(user).State = isNew ?
                     EntityState.Added :
                     EntityState.Modified;
-                await _bloggingContext.SaveChangesAsync();
+                await _userDataContext.SaveChangesAsync();
 
                 return Result.Success();
             }

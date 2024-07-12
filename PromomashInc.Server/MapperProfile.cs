@@ -1,7 +1,7 @@
 ﻿
 using AutoMapper;
-using PromomashInc.Server.Context;
-using PromomashInc.Server.Dto;
+using PromomashInc.DataAccess.Models;
+using PromomashInc.EntitiesDto;
 using IConfigurationProvider = AutoMapper.IConfigurationProvider;
 
 namespace PromomashInc.Server

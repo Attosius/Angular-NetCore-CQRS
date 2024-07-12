@@ -26,14 +26,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\DataAccess.Context\PromomashInc.DataAccess.Context.csproj" />
+    <ProjectReference Include="..\DataAccess.Context\DataAccess.Context.csproj" />
     <ProjectReference Include="..\DataAccess.Models\PromomashInc.DataAccess.Models.csproj" />
     <ProjectReference Include="..\EntitiesDto\PromomashInc.EntitiesDto.csproj" />
     <ProjectReference Include="..\Helpers\PromomashInc.Helpers.csproj" />
     <ProjectReference Include="..\promomashinc.client\promomashinc.client.esproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
     </ProjectReference>
-    <ProjectReference Include="..\PromomashInc.Core\PromomashInc.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

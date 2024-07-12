@@ -1,10 +1,12 @@
-
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using NLog;
 using NLog.Web;
-using PromomashInc.Server.Context;
+using PromomashInc.Core;
+using PromomashInc.DataAccess.Context;
+using PromomashInc.DataAccess.Models;
 
 namespace PromomashInc.Server
 {
@@ -23,7 +25,7 @@ namespace PromomashInc.Server
         }
         private static void ConfigureDbContext(IServiceCollection services)
         {
-            services.AddDbContext<BloggingContext>(SetOptions);
+            services.AddDbContext<UserDataContext>(SetOptions);
             //services.AddAsyncInitializer<ApplicationDbContextInitializer>();
         }
 
@@ -50,6 +52,11 @@ namespace PromomashInc.Server
                 // NLog: Setup NLog for Dependency injection
                 builder.Logging.ClearProviders();
                 builder.Host.UseNLog();
+
+                builder.Services.AddScoped<ICustomPasswordHasher, CustomPasswordHasher>();
+
+
+
 
                 var app = builder.Build();
 
@@ -91,7 +98,7 @@ namespace PromomashInc.Server
         private static void AddDb()
         {
 
-            using var db = new BloggingContext();
+            using var db = new UserDataContext();
 
             // Note: This sample requires the database to be created before running.
             Console.WriteLine($"Database path: {db.DbPath}.");

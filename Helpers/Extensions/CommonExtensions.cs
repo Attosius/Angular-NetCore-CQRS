@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Helpers.Extensions
+namespace PromomashInc.Helpers.Extensions
 {
     public static class CommonExtensions
     {

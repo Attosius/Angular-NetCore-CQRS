@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Helpers.FunctionalResult
+namespace PromomashInc.Helpers.FunctionalResult
 {
     public static class ResultExtensions
     {
