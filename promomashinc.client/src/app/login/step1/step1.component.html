@@ -31,7 +31,7 @@
       <div class="flex-container flex-row" style="width: 500px;">
         <mat-label style="flex-grow: 1; width: 100px;     text-align: right;margin-right: 20px;"> Login </mat-label>
         <mat-form-field style=" flex-grow: 2; ">
-          <input type="text" matInput [formControl]="loginFormControl" [errorStateMatcher]="matcher">
+          <input type="text" matInput [formControl]="loginFormControl">
 
           @if (loginFormControl.hasError('required')) {
             <mat-error>Login is <strong>required</strong></mat-error>
@@ -76,7 +76,7 @@
 
       </div>
 
-      <mat-checkbox style="width: 100%;" [formControl]="agreeFormControl">
+      <mat-checkbox style="width: 100%; font-size: 12px;" [formControl]="agreeFormControl">
         Agree to work for food
         
       </mat-checkbox>

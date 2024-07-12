@@ -1,70 +1,84 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
-import { MyErrorStateMatcher } from '../step1/step1.component';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { Country } from '../../models/country';
+import { Country, UserData } from '../../models/country';
 import { catchError, delay, finalize, map, Observable, of } from 'rxjs';
 import { Province } from '../../models/province';
+import { Helpers } from '../../common/helpers';
 
 @Component({
 	selector: 'app-step2',
 	templateUrl: './step2.component.html',
 	styleUrl: './step2.component.scss'
 })
-export class Step2Component  implements OnInit {
+export class Step2Component implements OnInit {
 	public countryFormControl = new FormControl('', [Validators.required]);
 	public provinceFormControl = new FormControl('', [Validators.required]);
 
-	public matcher = new MyErrorStateMatcher();
+	// public matcher = new MyErrorStateMatcher();
 	public selectedCountry = '';
 	public selectedProvince = '';
 	public isLoading = false;
 	public countries: any[] = [];
 	public provincies: any[] = [];
+	public userData!: UserData;
+	public userRegistrationForm: FormGroup;
 
 	constructor(
 		private router: Router,
-		private http: HttpClient) {
+		private http: HttpClient,
+		private activatedRoute: ActivatedRoute,
+		private formBuilder: FormBuilder) {
 
+		this.userRegistrationForm = this.formBuilder.group({
+			countryFormControl: this.countryFormControl,
+			provinceFormControl: this.provinceFormControl,
+		});
 	}
 
-    ngOnInit() {
-        this.getCountries().subscribe();
-    }
+	ngOnInit() {
+		console.dir(history.state.userData);
+		if (!history.state.userData) {
+			this.router.navigateByUrl('/step1');
+		}
+		this.userData = new UserData(history.state.userData);
+
+		this.getCountries().subscribe();
+	}
 
 
-	public getCountries() : Observable<any>{
+	public getCountries(): Observable<any> {
 		this.isLoading = true;
 		return this.http.get<Country[]>('/weatherforecast/GetCountries').pipe(
-			
+
 			map(result => {
-					this.countries = result.map(o => new Country(o));
+				this.countries = result.map(o => new Country(o));
 			}),
-            catchError(err => {
-                console.log('Error while get countries', err);
-                return of([]);
-            }),
-            finalize(() => {
-                this.isLoading = false;
-            }),
+			catchError(err => {
+				console.log('Error while get countries', err);
+				return of([]);
+			}),
+			finalize(() => {
+				this.isLoading = false;
+			}),
 		);
 	}
 
-	public getProvincies(countryCode: string) : Observable<any>{
+	public getProvincies(countryCode: string): Observable<any> {
 		this.isLoading = true;
 		return this.http.get<Country[]>(`/weatherforecast/GetProvince?countryCode=${countryCode}`).pipe(
 
 			map(result => {
-					this.provincies = result.map(o => new Province(o));
+				this.provincies = result.map(o => new Province(o));
 			}),
-            catchError(err => {
-                console.log('Error while get provincies', err);
-                return of([]);
-            }),
-            finalize(() => {
-                this.isLoading = false;
-            }),
+			catchError(err => {
+				console.log('Error while get provincies', err);
+				return of([]);
+			}),
+			finalize(() => {
+				this.isLoading = false;
+			}),
 		);
 	}
 
@@ -79,12 +93,32 @@ export class Step2Component  implements OnInit {
 	}
 
 	public gotoStep1() {
-
-		this.router.navigate(['/step1']);
-
+        this.router.navigateByUrl('/step1', { state: { userData: this.userData} });
+	
 	}
+
 	public save() {
+		for (var i in this.userRegistrationForm.controls) {
+			Helpers.markAsTouched(this.userRegistrationForm);
+		}
+		if (this.userRegistrationForm.invalid) {
+			return;
+		}
+		this.userData.CountryCode = this.countryFormControl.value!;
+		this.userData.ProvinceCode = this.provinceFormControl.value!
+		this.isLoading = true;
+		this.http.post<Country[]>(`/weatherforecast/Save`, this.userData).pipe(
 
-
+			map(result => {
+				console.dir(result);
+			}),
+			catchError(err => {
+				console.log('Error while save data', err);
+				return of([]);
+			}),
+			finalize(() => {
+				this.isLoading = false;
+			}),
+		).subscribe();
 	}
 }

@@ -2,7 +2,7 @@
 export class BaseConstructor {
 
     constructor(json: any) {
-        // Object.assign(this, json);
+        Object.assign(this, json);
     }
 
     public Assign(json: any) {
@@ -13,3 +13,4 @@ export class BaseConstructor {
         return json;
     }
 }
+

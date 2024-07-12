@@ -1,4 +1,5 @@
-import { BaseConstructor } from "./country";
+import { BaseConstructor } from "./base-constructor";
+
 
 export class Province extends BaseConstructor {
     public Code = '';

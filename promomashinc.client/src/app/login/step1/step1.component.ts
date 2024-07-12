@@ -1,14 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, FormGroupDirective, NgForm, ValidationErrors, ValidatorFn, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { Route, Router } from '@angular/router';
+import { UserData } from '../../models/country';
+import { Helpers } from '../../common/helpers';
 
 @Component({
     selector: 'app-login-step1',
     templateUrl: './step1.component.html',
     styleUrl: './step1.component.scss'
 })
-export class Step1Component {
+export class Step1Component implements OnInit {
     public loginFormControl = new FormControl('', [Validators.required, Validators.email]);
     public passwordFormControl = new FormControl('', [
         Validators.required,
@@ -26,10 +28,11 @@ export class Step1Component {
         validators: [passwordMatch()]
     }
     );
-    public matcher = new MyErrorStateMatcher();
-    public login = '';
+    // public matcher = new MyErrorStateMatcher();
+    // public login = '';
 
     public userRegistrationForm: FormGroup;
+    public userData: UserData | undefined;
 
 
     // form = this.formBuilder.group({
@@ -69,24 +72,27 @@ export class Step1Component {
 
         // this.createForm();
     }
-    private markAsTouched(control: AbstractControl) {
-        if (control instanceof FormGroup) {
-            const controls = (control as FormGroup).controls
-            for (const name in controls) {
-                this.markAsTouched(controls[name]);
-            }
+
+    ngOnInit() {
+        this.userData = new UserData(history.state.userData);
+        if (history.state.userData) {
+            this.loginFormControl.setValue(this.userData.Email);
+            this.passwordFormControl.setValue(this.userData.Password);
+            this.confirmPasswordFormControl.setValue(this.userData.Password);
         }
-        control.markAsTouched();
     }
 
     public gotoStep2() {
-        for (var i in this.userRegistrationForm.controls) {
-            this.markAsTouched(this.userRegistrationForm);
-        }
+        Helpers.markAsTouched(this.userRegistrationForm);
+
         if (this.userRegistrationForm.invalid) {
-            return;
+            // return;
         }
-        this.router.navigate(['/step2']);
+        const user = new UserData();
+        user.Email = this.loginFormControl.value!;
+        user.Password = this.passwordFormControl.value!
+        this.router.navigateByUrl('/step2', { state: { userData: user } });
+        // this.router.navigate(['/step2']);
     }
 }
 
@@ -223,21 +229,21 @@ export class CustomValidators {
 /**
 * Collection of reusable error messages
 */
-export const errorMessages: { [key: string]: string } = {
-    fullName: 'Full name must be between 1 and 128 characters',
-    email: 'Email must be a valid email address (username@domain)',
-    confirmEmail: 'Email addresses must match',
-    password: 'Password must be between 7 and 15 characters, and contain at least one number and special character',
-    confirmPassword: 'Passwords must match'
-};
+// export const errorMessages: { [key: string]: string } = {
+//     fullName: 'Full name must be between 1 and 128 characters',
+//     email: 'Email must be a valid email address (username@domain)',
+//     confirmEmail: 'Email addresses must match',
+//     password: 'Password must be between 7 and 15 characters, and contain at least one number and special character',
+//     confirmPassword: 'Passwords must match'
+// };
 
 
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-    public isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-        // const isSubmitted = form && form.submitted;
-        const empty = control?.value;
-        return !!(control && control.invalid && (control.dirty || control.touched || empty));
-        // return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-    }
+// export class MyErrorStateMatcher implements ErrorStateMatcher {
+//     public isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
+//         // const isSubmitted = form && form.submitted;
+//         const empty = control?.value;
+//         return !!(control && control.invalid && (control.dirty || control.touched || empty));
+//         // return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
+//     }
 
-}
+// }
