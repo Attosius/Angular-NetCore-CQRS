@@ -7,6 +7,13 @@ using PromomashInc.Core;
 using PromomashInc.DataAccess.Context;
 using PromomashInc.Core.Models;
 using PromomashInc.Mapper;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.DependencyInjection;
+using MediatR;
+using PromomashInc.Server.Handlers;
+using FluentValidation;
+using System;
+using PromomashInc.EntitiesDto.Command;
 
 namespace PromomashInc.Server
 {
@@ -67,21 +74,26 @@ namespace PromomashInc.Server
             }
         }
 
-        private static void ConfigureServices(IServiceCollection builderServices)
+        private static void ConfigureServices(IServiceCollection services)
         {
-            builderServices.AddControllers().AddNewtonsoftJson(options =>
+            services.AddControllers().AddNewtonsoftJson(options =>
             {
                 options.SerializerSettings.ContractResolver = new DefaultContractResolver();
                 options.SerializerSettings.ReferenceLoopHandling = ReferenceLoopHandling.Ignore;
             });
-            builderServices.AddEndpointsApiExplorer();
-            builderServices.AddSwaggerGen();
-            ConfigureDbContext(builderServices);
-            builderServices.AddSingleton(AutoMapperConfig.Configure().CreateMapper());
+            services.AddEndpointsApiExplorer();
+            services.AddSwaggerGen();
+            ConfigureDbContext(services);
+            services.AddSingleton(AutoMapperConfig.Configure().CreateMapper());
           
-            builderServices.AddScoped<ICustomPasswordHasher, CustomPasswordHasher>();
-            builderServices.AddScoped<IUserRepository, UserRepository>();
-            builderServices.AddScoped<IDictionaryRepository, DictionaryRepository>();
+            services.AddScoped<ICustomPasswordHasher, CustomPasswordHasher>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IDictionaryRepository, DictionaryRepository>();
+
+
+            services.AddScoped<IValidator<CreateUserCommand>, CreateUserCommandValidator>();
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
         }
     }
 }

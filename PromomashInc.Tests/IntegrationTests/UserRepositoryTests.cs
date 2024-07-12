@@ -40,7 +40,7 @@ namespace PromomashInc.Tests.IntegrationTests
 
             Assert.IsTrue(result.IsSuccess);
             Assert.NotNull(user);
-            Assert.AreEqual("1@1.com", user.Email);
+            Assert.That("1@1.com" == user.Email);
             Assert.AreEqual("Country_1", user.CountryCode);
             Assert.AreEqual("Province_4", user.ProvinceCode);
         }
