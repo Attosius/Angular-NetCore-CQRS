@@ -50,7 +50,7 @@ export class Step2Component implements OnInit {
 
 	public getCountries(): Observable<any> {
 		this.isLoading = true;
-		return this.http.get<Country[]>('/weatherforecast/GetCountries').pipe(
+		return this.http.get<Country[]>('/Dictionary/GetCountries').pipe(
 
 			map(result => {
 				this.countries = result.map(o => new Country(o));
@@ -67,7 +67,7 @@ export class Step2Component implements OnInit {
 
 	public getProvincies(countryCode: string): Observable<any> {
 		this.isLoading = true;
-		return this.http.get<Country[]>(`/weatherforecast/GetProvince?countryCode=${countryCode}`).pipe(
+		return this.http.get<Country[]>(`/Dictionary/GetProvince?countryCode=${countryCode}`).pipe(
 
 			map(result => {
 				this.provincies = result.map(o => new Province(o));
@@ -102,12 +102,12 @@ export class Step2Component implements OnInit {
 			Helpers.markAsTouched(this.userRegistrationForm);
 		}
 		if (this.userRegistrationForm.invalid) {
-			return;
+			// return;
 		}
 		this.userData.CountryCode = this.countryFormControl.value!;
 		this.userData.ProvinceCode = this.provinceFormControl.value!
 		this.isLoading = true;
-		this.http.post<Country[]>(`/weatherforecast/Save`, this.userData).pipe(
+		this.http.post<Country[]>(`/User/Save`, this.userData).pipe(
 
 			map(result => {
 				console.dir(result);

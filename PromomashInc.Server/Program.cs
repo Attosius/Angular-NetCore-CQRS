@@ -40,6 +40,7 @@ namespace PromomashInc.Server
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
             ConfigureDbContext(builder.Services);
+            builder.Services.AddSingleton(AutoMapperConfig.Configure().CreateMapper());
 
             var app = builder.Build();
 
