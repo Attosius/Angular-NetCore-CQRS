@@ -5,6 +5,7 @@ using PromomashInc.Server.Context;
 using PromomashInc.Server.Dto;
 using System.Security.Cryptography;
 using AutoMapper;
+using Helpers.FunctionalResult;
 
 namespace PromomashInc.Server.Controllers
 {
@@ -12,11 +13,7 @@ namespace PromomashInc.Server.Controllers
     [Route("[controller]")]
     public class UserController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
+       
         private readonly ILogger<UserController> _logger;
         private readonly BloggingContext _bloggingContext;
         private readonly IMapper _mapper;
@@ -33,35 +30,42 @@ namespace PromomashInc.Server.Controllers
         }
 
         [HttpPost(nameof(Save))]
-        public async ValueTask<bool> Save([FromBody] UserDto userData)
+        public async Task<Result> Save([FromBody] UserDto userData)
         {
-            if (userData == null)
+            try
             {
-                return false;
+                if (userData == null)
+                {
+                    return Result.Fail("User data undefined");
+                }
+
+                var user = _mapper.Map<User>(userData);
+                var isNew = user.Id == 0;
+
+                byte[] salt = RandomNumberGenerator.GetBytes(128 / 8); // divide by 8 to convert bits to bytes
+                Console.WriteLine($"Salt: {Convert.ToBase64String(salt)}");
+
+                string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
+                    password: userData.Password!,
+                    salt: salt,
+                    prf: KeyDerivationPrf.HMACSHA256,
+                    iterationCount: 100000,
+                    numBytesRequested: 256 / 8));
+                user.PasswordHash = hashed;
+                Console.WriteLine($"Hashed: {hashed}");
+
+                var notes = _bloggingContext.Entry(user).State = isNew ?
+                    EntityState.Added :
+                    EntityState.Modified;
+                await _bloggingContext.SaveChangesAsync();
+
+                return Result.Success();
             }
-
-            var user = _mapper.Map<User>(userData);
-            var isNew = user.Id == 0;
-
-            byte[] salt = RandomNumberGenerator.GetBytes(128 / 8); // divide by 8 to convert bits to bytes
-            Console.WriteLine($"Salt: {Convert.ToBase64String(salt)}");
-
-            // derive a 256-bit subkey (use HMACSHA256 with 100,000 iterations)
-            string hashed = Convert.ToBase64String(KeyDerivation.Pbkdf2(
-                password: userData.Password!,
-                salt: salt,
-                prf: KeyDerivationPrf.HMACSHA256,
-                iterationCount: 100000,
-                numBytesRequested: 256 / 8));
-            user.PasswordHash = hashed;
-            Console.WriteLine($"Hashed: {hashed}");
-
-            var notes = _bloggingContext.Entry(user).State = isNew ?
-                EntityState.Added :
-                EntityState.Modified;
-            await _bloggingContext.SaveChangesAsync();
-
-            return true;
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Results error");
+                return e.ToErrorResult<Result>($"Error: {e.Message}");
+            }
         }
     }
 }

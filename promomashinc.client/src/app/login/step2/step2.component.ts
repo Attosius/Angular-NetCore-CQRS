@@ -6,6 +6,7 @@ import { Country, UserData } from '../../models/country';
 import { catchError, delay, finalize, map, Observable, of } from 'rxjs';
 import { Province } from '../../models/province';
 import { Helpers } from '../../common/helpers';
+import { Result, ResultGeneric } from '../../models/Result';
 
 @Component({
 	selector: 'app-step2',
@@ -50,10 +51,16 @@ export class Step2Component implements OnInit {
 
 	public getCountries(): Observable<any> {
 		this.isLoading = true;
-		return this.http.get<Country[]>('/Dictionary/GetCountries').pipe(
+		return this.http.get<ResultGeneric<Country[]>>('/Dictionary/GetCountries').pipe(
 
 			map(result => {
-				this.countries = result.map(o => new Country(o));
+				if (result.IsFailure) {
+					// this.popupService.error(getBrokerProfilesResult.Message);
+					console.error(result.Exception);
+					return;
+				}
+
+				this.countries = result.Value.map(o => new Country(o));
 			}),
 			catchError(err => {
 				console.log('Error while get countries', err);
@@ -67,10 +74,16 @@ export class Step2Component implements OnInit {
 
 	public getProvincies(countryCode: string): Observable<any> {
 		this.isLoading = true;
-		return this.http.get<Country[]>(`/Dictionary/GetProvince?countryCode=${countryCode}`).pipe(
+		return this.http.get<ResultGeneric<Province[]>>(`/Dictionary/GetProvince?countryCode=${countryCode}`).pipe(
 
 			map(result => {
-				this.provincies = result.map(o => new Province(o));
+				if (result.IsFailure) {
+					// this.popupService.error(getBrokerProfilesResult.Message);
+					console.error(result.Exception);
+					return;
+				}
+
+				this.provincies = result.Value.map(o => new Province(o));
 			}),
 			catchError(err => {
 				console.log('Error while get provincies', err);
@@ -107,7 +120,7 @@ export class Step2Component implements OnInit {
 		this.userData.CountryCode = this.countryFormControl.value!;
 		this.userData.ProvinceCode = this.provinceFormControl.value!
 		this.isLoading = true;
-		this.http.post<Country[]>(`/User/Save`, this.userData).pipe(
+		this.http.post<Result>(`/User/Save`, this.userData).pipe(
 
 			map(result => {
 				console.dir(result);

@@ -13,4 +13,3 @@ export class BaseConstructor {
         return json;
     }
 }
-
