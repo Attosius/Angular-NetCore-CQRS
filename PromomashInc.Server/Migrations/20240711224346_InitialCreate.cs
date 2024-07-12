@@ -42,11 +42,20 @@ namespace PromomashInc.Server.Migrations
                     Id = table.Column<int>(type: "INTEGER", nullable: false)
                         .Annotation("Sqlite:Autoincrement", true),
                     Email = table.Column<string>(type: "TEXT", nullable: true),
-                    PasswordHash = table.Column<string>(type: "TEXT", nullable: true)
+                    PasswordHash = table.Column<string>(type: "TEXT", nullable: true),
+                    CountryCode = table.Column<string>(type: "TEXT", nullable: true),
+                    ProvinceCode = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Users_Countries_CountryCode",
+                        column: x => x.CountryCode,
+                        principalTable: "Countries",
+                        principalColumn: "Code",
+                        onDelete: ReferentialAction.Cascade);
+
                 });
         }
 
