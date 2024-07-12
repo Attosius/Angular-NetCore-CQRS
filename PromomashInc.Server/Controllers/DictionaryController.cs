@@ -45,14 +45,10 @@ namespace PromomashInc.Server.Controllers
         [HttpGet(nameof(GetProvince))]
         public async Task<Result<List<ProvinceDto>>> GetProvince(string countryCode)
         {
-            Thread.Sleep(1000);
-            var result = await TryCatchExecuterAsync(async () =>
-            {
-                var data = await _userDataContext.Provinces
-                    .ProjectTo<ProvinceDto>(_mapper.ConfigurationProvider)
-                    .ToListAsync();
-                return data;
-            });
+            Thread.Sleep(1000); // for loader
+            var result = await TryCatchExecuterAsync(async () => await _userDataContext.Provinces
+                .ProjectTo<ProvinceDto>(_mapper.ConfigurationProvider)
+                .ToListAsync());
             return result;
 
         }

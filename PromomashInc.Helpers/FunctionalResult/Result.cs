@@ -6,6 +6,8 @@ using PromomashInc.Helpers.Extensions;
 
 namespace PromomashInc.Helpers.FunctionalResult
 {
+
+    
     public enum ResultType
     {
         None = 0,

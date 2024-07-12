@@ -1,10 +1,9 @@
-﻿
-using AutoMapper;
+﻿using AutoMapper;
 using PromomashInc.DataAccess.Models;
 using PromomashInc.EntitiesDto;
 using IConfigurationProvider = AutoMapper.IConfigurationProvider;
 
-namespace PromomashInc.Server
+namespace PromomashInc.Mapper
 {
     public class AutoMapperConfig
     {

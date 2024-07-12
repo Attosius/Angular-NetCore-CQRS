@@ -1,6 +1,6 @@
 @PromomashInc.Server_HostAddress = http://localhost:5234
 
-GET {{PromomashInc.Server_HostAddress}}/weatherforecast/
+GET {{PromomashInc.Server_HostAddress}}/Dictionary/GetCountries
 Accept: application/json
 
 ###

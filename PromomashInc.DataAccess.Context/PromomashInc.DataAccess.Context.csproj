@@ -6,6 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AspNetCore.AsyncInitialization" Version="1.1.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="8.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="8.0.6">
       <PrivateAssets>all</PrivateAssets>
@@ -15,7 +16,13 @@
 
 
   <ItemGroup>
-    <ProjectReference Include="..\DataAccess.Models\PromomashInc.DataAccess.Models.csproj" />
+    <ProjectReference Include="..\PromomashInc.DataAccess.Models\PromomashInc.DataAccess.Models.csproj" />
+  </ItemGroup>
+
+
+  <ItemGroup>
+    <Folder Include="LocalDb\" />
+    <Folder Include="Migrations\" />
   </ItemGroup>
 
 </Project>
