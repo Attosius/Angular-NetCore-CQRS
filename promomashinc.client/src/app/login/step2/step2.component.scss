@@ -1,28 +1,4 @@
-.flex-container {
-	display: flex;
-	align-items: baseline;
-	justify-content: space-around;
-	flex-wrap: wrap;
-	padding: 16px;
-}
 
-.flex-column {
-	flex-direction: column;
-}
-
-.flex-row {
-	flex-direction: row;
-}
-
-button {
-	margin: 8px;
-}
-
-.mat-radio-button~.mat-radio-button {
-	margin-left: 16px;
-}
-
-.logo {
-	width: 280px;
-	height: auto;
+.right-btn {
+	margin-right: 20px;
 }

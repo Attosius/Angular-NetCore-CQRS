@@ -1,4 +1,4 @@
-<!-- <h1 class="mat-display-1">Login</h1> -->
+
 <img mat-card-avatar class="logo" src="../../assets/pm-logo.png" alt="Promomash" />
 
 
@@ -6,31 +6,19 @@
   <mat-card-header>
 
     <mat-card-title>
-      <div class="flex-container flex-row" style="width: 500px;">
-        <h2 style=" flex-grow: 2; ">Step 1</h2>
+      <div class="flex-container flex-row field-width" >
+        <h2  class="form-field-width">Step 1</h2>
       </div>
-
     </mat-card-title>
   </mat-card-header>
   <mat-card-content>
-    <!-- <form [formGroup]="form" class="example-form  flex-container flex-column">
 
-      <input matInput type="email" name="email"
-             placeholder="Email" formControlName="email">
-  
-      <input matInput type="password"
-             placeholder="Password" formControlName="password">
-  
-             <button [disabled]="!form.valid">
-              Login
-            </button>
-  </form> -->
+    <form [formGroup]="userRegistrationForm" novalidate class="flex-container flex-column">
 
-    <form [formGroup]="userRegistrationForm" novalidate class="example-form  flex-container flex-column">
-
-      <div class="flex-container flex-row" style="width: 500px;">
-        <mat-label style="flex-grow: 1; width: 100px;     text-align: right;margin-right: 20px;"> Login </mat-label>
-        <mat-form-field style=" flex-grow: 2; ">
+      <div class="flex-container flex-row field-width" >
+        <mat-label class="label-width"> Login </mat-label>
+        <mat-form-field  class="form-field-width">
+          <mat-label>email&#64;gmail.com</mat-label>
           <input type="text" matInput [formControl]="loginFormControl">
 
           @if (loginFormControl.hasError('required')) {
@@ -39,15 +27,14 @@
             @if (loginFormControl.hasError('email')) {
             <mat-error>Login must be a valid email</mat-error>
             }
-          <!-- {{loginFormControl.errors | json}} -->
         </mat-form-field>
       </div>
 
-      <div class="flex-container flex-row" style="width: 500px;">
-        <mat-label style="flex-grow: 1; width: 100px;    text-align: right;margin-right: 20px;"> Password </mat-label>
-        <mat-form-field style=" flex-grow: 2;">
+      <div class="flex-container flex-row field-width" >
+        <mat-label class="label-width"> Password </mat-label>
+        <mat-form-field  class="form-field-width">
           <input type="password" matInput [formControl]="passwordFormControl">
-          <!-- {{passwordFormControl.errors | json}} -->
+      
           @if (passwordFormControl.hasError('required')) {
           <mat-error>Password is <strong>required</strong></mat-error>
           }
@@ -58,10 +45,10 @@
 
       </div>
 
-      <div class="flex-container flex-row" style="width: 500px;">
-        <mat-label style="flex-grow: 1; width: 100px;    text-align: right;margin-right: 20px;"> Confirm Password
+      <div class="flex-container flex-row field-width" >
+        <mat-label class="label-width"> Confirm Password
         </mat-label>
-        <mat-form-field style=" flex-grow: 2; ">
+        <mat-form-field class="form-field-width">
           <input type="password" matInput [formControl]="confirmPasswordFormControl">
           @if (this.confirmPasswordFormControl.hasError('required')) {
           <mat-error>Confirm password is <strong>required</strong></mat-error>
@@ -70,23 +57,18 @@
           @if (this.confirmPasswordFormControl.hasError('notsame')) {
           <mat-error>Confirm password must be the same with password</mat-error>
           }
-          <!-- {{confirmPasswordFormControl.errors | json}}---
-          {{passwordFormControlGroup.errors | json}} -->
         </mat-form-field>
 
       </div>
 
-      <mat-checkbox style="width: 100%; font-size: 12px;" [formControl]="agreeFormControl">
-        Agree to work for food
-        
+      <mat-checkbox  class="width-100-pc " [formControl]="agreeFormControl">
+        Agree to work for food      
       </mat-checkbox>
       
       @if (agreeFormControl.hasError('required') && agreeFormControl.touched) {
-          <mat-error style="width: 100%;" >Agree is <strong>required</strong></mat-error>
+          <mat-error class="width-100-pc cb-label" >Confirm, <strong>please</strong></mat-error>
           }
 
-     
-        {{this.userRegistrationForm.invalid | json}} 
     </form>
 
 
@@ -94,43 +76,4 @@
       Go to step 2
     </button>
   </mat-card-content>
-  <!-- <mat-card-actions align="end">
-    <button mat-raised-button color="primary">Read More</button>
-  </mat-card-actions> -->
 </mat-card>
-
-<div class="flex-container">
-  <div>
-    <button mat-raised-button color="primary">Raised Primary</button>
-    <button mat-raised-button color="accent">Raised Accent</button>
-    <button mat-stroked-button>Basic Stroked</button>
-    <button mat-stroked-button color="primary">Stroked Primary</button>
-  </div>
-
-  <button mat-fab>
-    <mat-icon>thumb_up</mat-icon>
-  </button>
-
-  <mat-radio-group aria-label="Select an option">
-    <mat-radio-button value="1">Option 1</mat-radio-button>
-    <mat-radio-button value="2">Option 2</mat-radio-button>
-  </mat-radio-group>
-
-  <mat-checkbox>Check me!</mat-checkbox>
-
-  <mat-form-field>
-    <mat-label>Choose a date</mat-label>
-    <input matInput [matDatepicker]="picker" />
-    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-    <mat-datepicker #picker></mat-datepicker>
-  </mat-form-field>
-
-  <!-- <mat-slider></mat-slider> -->
-
-  <button mat-flat-button color="primary" matTooltip="Info about the action" matTooltipPosition="after"
-    aria-label="Button that displays a tooltip when focused or hovered over">
-    Tooltip
-  </button>
-</div>
-
-<mat-paginator [length]="100" [pageSize]="10" [pageSizeOptions]="[5, 10, 25, 100]"></mat-paginator>

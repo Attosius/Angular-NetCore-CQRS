@@ -12,7 +12,7 @@ import { Result, ResultGeneric } from '../../models/result';
 @Component({
 	selector: 'app-step2',
 	templateUrl: './step2.component.html',
-	styleUrl: './step2.component.scss'
+    styleUrls: ['./step2.component.scss', '../../app.component.scss']
 })
 export class Step2Component implements OnInit {
 	public countryFormControl = new FormControl('', [Validators.required]);

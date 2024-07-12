@@ -1,19 +1,22 @@
+<img mat-card-avatar class="logo" src="../../assets/pm-logo.png" alt="Promomash" />
+
+
 <mat-card>
     <mat-card-header>
 
         <mat-card-title>
-            <div class="flex-container flex-row" style="width: 500px;">
-                <h2 style=" flex-grow: 2; ">Step 2</h2>
+            <div class="flex-container flex-row field-width">
+                <h2 class="form-field-width">Step 2</h2>
             </div>
 
         </mat-card-title>
     </mat-card-header>
     <mat-card-content>
         <form class="example-form  flex-container flex-column">
-            <div class="flex-container flex-row" style="width: 500px;">
-                <mat-label style="flex-grow: 1; width: 100px;     text-align: right;margin-right: 20px;"> Country
+            <div class="flex-container flex-row field-width">
+                <mat-label class="label-width"> Country
                 </mat-label>
-                <mat-form-field style=" flex-grow: 2; ">
+                <mat-form-field  class="form-field-width">
                     <mat-label>Select Country</mat-label>
                     <mat-select #country [formControl]="countryFormControl"
                         (selectionChange)='onCountrySelected(country.value)'>
@@ -26,14 +29,13 @@
                     }
 
                 </mat-form-field>
-                <!-- {{this.countryFormControl.value | json}}  -->
             </div>
 
 
-            <div class="flex-container flex-row" style="width: 500px;">
-                <mat-label style="flex-grow: 1; width: 100px;    text-align: right;margin-right: 20px;"> Province
+            <div class="flex-container flex-row  field-width" >
+                <mat-label class="label-width"> Province
                 </mat-label>
-                <mat-form-field style=" flex-grow: 2; ">
+                <mat-form-field  class="form-field-width">
                     <mat-label>{{!!this.selectedCountry ? "Select province" : "Select country first"}}</mat-label>
                     <mat-select #province [formControl]="provinceFormControl">
                         <ng-container *ngIf="!isLoading; else loading">
@@ -44,7 +46,6 @@
 
 
                         <ng-template #loading>
-                            <!-- While waiting for the options to load show a single, disabled option with a loading spinner -->
                             <mat-option disabled>
                                 <div class="deferred-select-placeholder-container flex-container flex-row">
                                     <span>Loading...</span>
@@ -60,14 +61,12 @@
                     }
                 </mat-form-field>
                 
-        <!-- {{this.provinceFormControl.value | json}}  -->
-                <!-- <div> {{this.isLoading}}</div> -->
             </div>
 
         </form>
         <div class="flex-container flex-row">
             <button mat-raised-button color="accent" matTooltip="Go to step 1" matTooltipPosition="after"
-                style="margin-right: 20px;" (click)="gotoStep1()">
+                 (click)="gotoStep1()">
                 Back
             </button>
 
@@ -76,7 +75,4 @@
             </button>
         </div>
     </mat-card-content>
-    <!-- <mat-card-actions align="end">
-      <button mat-raised-button color="primary">Read More</button>
-    </mat-card-actions> -->
 </mat-card>

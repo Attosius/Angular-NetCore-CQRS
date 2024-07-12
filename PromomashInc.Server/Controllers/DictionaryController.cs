@@ -46,7 +46,8 @@ namespace PromomashInc.Server.Controllers
         public async Task<Result<List<ProvinceDto>>> GetProvince(string countryCode)
         {
             Thread.Sleep(1000); // for loader
-            var result = await TryCatchExecuterAsync(async () => await _userDataContext.Provinces
+            var result = await TryCatchExecuterAsync(async () =>
+                await _userDataContext.Provinces
                 .ProjectTo<ProvinceDto>(_mapper.ConfigurationProvider)
                 .ToListAsync());
             return result;
