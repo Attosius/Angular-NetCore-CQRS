@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
-import { HttpClient } from '@angular/common/http';
-import { Country, UserData } from '../../models/country';
+import { Router } from '@angular/router';
 import { catchError,  finalize, map, Observable, of } from 'rxjs';
 import { Province } from '../../models/province';
 import { Helpers } from '../../common/helpers';
 import { ToastrService } from 'ngx-toastr';
 import { Result, ResultGeneric } from '../../models/result';
+import { Country } from '../../models/country';
+import { UserData } from '../../models/user-data';
+import { LoginService } from '../services/login-service';
 
 @Component({
 	selector: 'app-step2',
@@ -15,22 +16,19 @@ import { Result, ResultGeneric } from '../../models/result';
     styleUrls: ['./step2.component.scss', '../../app.component.scss']
 })
 export class Step2Component implements OnInit {
+	public userRegistrationForm: FormGroup;
 	public countryFormControl = new FormControl('', [Validators.required]);
 	public provinceFormControl = new FormControl('', [Validators.required]);
 
-	public selectedCountry = '';
-	public selectedProvince = '';
 	public isLoading = false;
-	public countries: any[] = [];
-	public provincies: any[] = [];
+	public countries: Country[] = [];
+	public provincies: Province[] = [];
 	public userData!: UserData;
-	public userRegistrationForm: FormGroup;
 
 	constructor(
 		private router: Router,
-		private http: HttpClient,
-		private activatedRoute: ActivatedRoute,
 		private formBuilder: FormBuilder,
+		private loginService: LoginService,
 		private toastr: ToastrService) {
 
 		this.userRegistrationForm = this.formBuilder.group({
@@ -40,20 +38,17 @@ export class Step2Component implements OnInit {
 	}
 
 	ngOnInit() {
-		console.dir(history.state.userData);
 		if (!history.state.userData) {
 			this.router.navigateByUrl('/step1');
 		}
 		this.userData = new UserData(history.state.userData);
-
 		this.getCountries().subscribe();
 	}
 
 
-	public getCountries(): Observable<any> {
+	public getCountries(): Observable<Result | any > {
 		this.isLoading = true;
-		return this.http.get<ResultGeneric<Country[]>>('/Dictionary/GetCountries').pipe(
-
+		return this.loginService.getCountries().pipe(
 			map(result => {
 				if (result.IsFailure) {
 					this.errorCatch(result.Exception, result.Message);
@@ -62,8 +57,9 @@ export class Step2Component implements OnInit {
 
 				this.countries = result.Value.map(o => new Country(o));
 			}),
-			catchError(err => {
-				return this.errorCatch(err, 'Error while get countries');
+			catchError((error) => {
+				this.errorCatch(error, 'Error while get countries');
+				return of(Result.Error());
 			}),
 			finalize(() => {
 				this.isLoading = false;
@@ -74,8 +70,7 @@ export class Step2Component implements OnInit {
 
 	public getProvincies(countryCode: string): Observable<any> {
 		this.isLoading = true;
-		return this.http.get<ResultGeneric<Province[]>>(`/Dictionary/GetProvince?countryCode=${countryCode}`).pipe(
-
+		return this.loginService.getProvincies(countryCode).pipe(
 			map(result => {
 				if (result.IsFailure) {
 					this.errorCatch(result.Exception, result.Message);
@@ -98,9 +93,7 @@ export class Step2Component implements OnInit {
 			this.provincies = [];
 			return;
 		}
-		this.selectedCountry = currentCountry;
 		this.getProvincies(currentCountry).subscribe();
-		// this.currentProvinceList = this.provinceList.filter(o => o.parent === currentCountry);
 	}
 
 	public gotoStep1() {
@@ -113,12 +106,12 @@ export class Step2Component implements OnInit {
 			Helpers.markAsTouched(this.userRegistrationForm);
 		}
 		if (this.userRegistrationForm.invalid) {
-			// return;
+			return;
 		}
 		this.userData.CountryCode = this.countryFormControl.value!;
 		this.userData.ProvinceCode = this.provinceFormControl.value!
 		this.isLoading = true;
-		this.http.post<Result>(`/User/Save`, this.userData).pipe(
+		this.loginService.saveUser(this.userData).pipe(
 
 			map(result => {
 				if (result.IsFailure) {
@@ -135,11 +128,11 @@ export class Step2Component implements OnInit {
 			}),
 		).subscribe();
 	}
+
 	
-	private errorCatch(err: any, message: string) {
+	private errorCatch(err: any, message: string): Observable<Result> {
 		this.toastr.error(message);
 		console.log(message, err);
 		return of(Result.Error(message));
 	}
-
 }

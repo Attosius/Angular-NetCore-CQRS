@@ -9,6 +9,7 @@ export class Helpers {
             }
         }
         control.markAsTouched();
+        control.updateValueAndValidity();
     }
 }
 

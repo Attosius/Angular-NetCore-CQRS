@@ -1,14 +1,4 @@
 
-export enum ResultType
-{
-    None = 0,
-    Success = 1,
-    Debug = 2,
-    Info = 3,
-    Warn = 4, 
-    Error = 5 
-}
-
 
 export class Result {
     public Message = '';
@@ -26,7 +16,7 @@ export class Result {
         return r;
     }
     
-    public static Error(message: string): Result {
+    public static Error(message: string = 'Sevice unavailable'): Result {
         const r = new Result();
         r.IsFailure = true;
         r.IsSuccess = false;
@@ -49,7 +39,6 @@ export class ResultGeneric<T> extends Result {
 
     constructor(json: any = null) {
         super(json);
-        // this.Value = json.Value;
         Object.assign(this, json);
     }
     public static Empty<T>() {
@@ -70,27 +59,13 @@ export class ResultGeneric<T> extends Result {
     }
 }
 
-export class ResultCamelCase {
-    public message = '';
-    public isSuccess = false;
-    public isFailure = true;
-    public exception = '';
-    public errorList: string[] = [];
-
-    constructor(json: any = null) {
-        if (!json) {
-            return;
-        }
-        Object.assign(this, json);
-    }
+export enum ResultType
+{
+    None = 0,
+    Success = 1,
+    Debug = 2,
+    Info = 3,
+    Warn = 4, 
+    Error = 5 
 }
 
-export class ResultCamelCaseGeneric<T> extends ResultCamelCase {
-    public value!: T;
-
-    constructor(json: any = null) {
-        super(json);
-        // this.Value = json.Value;
-        Object.assign(this, json);
-    }
-}

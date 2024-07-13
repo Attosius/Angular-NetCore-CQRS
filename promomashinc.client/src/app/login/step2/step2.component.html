@@ -36,7 +36,7 @@
                 <mat-label class="label-width"> Province
                 </mat-label>
                 <mat-form-field  class="form-field-width">
-                    <mat-label>{{!!this.selectedCountry ? "Select province" : "Select country first"}}</mat-label>
+                    <mat-label>{{!!this.countryFormControl.value ? "Select province" : "Select country first"}}</mat-label>
                     <mat-select #province [formControl]="provinceFormControl">
                         <ng-container *ngIf="!isLoading; else loading">
                             @for (province of provincies; track province) {
