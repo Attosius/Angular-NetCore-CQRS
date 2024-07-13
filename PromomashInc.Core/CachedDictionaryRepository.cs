@@ -10,7 +10,7 @@ public class CachedDictionaryRepository : ICachedDictionaryRepository
     private readonly IDictionaryRepository _dictionaryRepository;
 
     public CachedDictionaryRepository(
-        IMemoryCache memoryCache,
+        IMemoryCache memoryCache, // redis, apache ignite, etc
         IDictionaryRepository dictionaryRepository)
     {
         _memoryCache = memoryCache;

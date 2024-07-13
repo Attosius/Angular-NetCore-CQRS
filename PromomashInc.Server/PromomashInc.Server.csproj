@@ -5,7 +5,7 @@
     <Nullable>disable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <SpaRoot>..\promomashinc.client</SpaRoot>
-   <!--<SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>-->
+    <SpaProxyLaunchCommand>npm start</SpaProxyLaunchCommand>
     <SpaProxyServerUrl>https://localhost:4200</SpaProxyServerUrl>
   </PropertyGroup>
 
@@ -32,6 +32,7 @@
     <ProjectReference Include="..\PromomashInc.DataAccess.Context\PromomashInc.DataAccess.Context.csproj" />
     <ProjectReference Include="..\PromomashInc.DataAccess.Models\PromomashInc.DataAccess.Models.csproj" />
     <ProjectReference Include="..\PromomashInc.EntitiesDto\PromomashInc.EntitiesDto.csproj" />
+    <ProjectReference Include="..\PromomashInc.Handlers\PromomashInc.Handlers.csproj" />
     <ProjectReference Include="..\PromomashInc.Helpers\PromomashInc.Helpers.csproj" />
     <ProjectReference Include="..\promomashinc.client\promomashinc.client.esproj">
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>

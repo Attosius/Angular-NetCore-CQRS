@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PromomashInc.EntitiesDto;
 using PromomashInc.Helpers.FunctionalResult;
-using PromomashInc.Core;
+using PromomashInc.Core.Models;
 
 
 namespace PromomashInc.Server.Controllers

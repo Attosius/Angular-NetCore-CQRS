@@ -19,7 +19,7 @@ namespace PromomashInc.Tests.IntegrationTests
         public async Task TestUserRepository_Save()
         {
             // arrange
-            using var context = new UserDataContext();
+            await using var context = new UserDataContext();
             var mapper = AutoMapperConfig.Configure().CreateMapper();
             var loggerMock = new Mock<ILogger<UserRepository>>();
 
@@ -35,14 +35,14 @@ namespace PromomashInc.Tests.IntegrationTests
             // act
             var result = await userRepository.Save(userData);
 
-
+            // assert
             var user = context.Users.FirstOrDefault(o => o.Email == "1@1.com");
 
             Assert.IsTrue(result.IsSuccess);
             Assert.NotNull(user);
             Assert.That("1@1.com" == user.Email);
-            Assert.AreEqual("Country_1", user.CountryCode);
-            Assert.AreEqual("Province_4", user.ProvinceCode);
+            Assert.That("Country_1" == user.CountryCode);
+            Assert.That("Province_4" == user.ProvinceCode);
         }
     }
 }

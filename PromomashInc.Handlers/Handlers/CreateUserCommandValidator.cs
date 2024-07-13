@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using PromomashInc.EntitiesDto.Command;
 
-namespace PromomashInc.Server.Handlers;
+namespace PromomashInc.Handlers.Handlers;
 
 public class CreateUserCommandValidator : AbstractValidator<CreateUserCommand>
 {

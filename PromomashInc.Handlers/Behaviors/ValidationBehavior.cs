@@ -1,7 +1,7 @@
 ﻿using FluentValidation;
 using MediatR;
 
-namespace PromomashInc.Server.Handlers;
+namespace PromomashInc.Handlers.Behaviors;
 
 public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
 {
@@ -15,7 +15,7 @@ public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TReques
 
     public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
-        _validator.ValidateAndThrow(request); // Check out the other methods for more advanced handling of validation errors 
+        _validator.ValidateAndThrow(request); 
         return next();
     }
 }

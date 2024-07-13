@@ -7,13 +7,11 @@ using PromomashInc.Core;
 using PromomashInc.DataAccess.Context;
 using PromomashInc.Core.Models;
 using PromomashInc.Mapper;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.DependencyInjection;
 using MediatR;
-using PromomashInc.Server.Handlers;
 using FluentValidation;
-using System;
 using PromomashInc.EntitiesDto.Command;
+using PromomashInc.Handlers.Behaviors;
+using PromomashInc.Handlers.Handlers;
 
 namespace PromomashInc.Server
 {
@@ -83,6 +81,7 @@ namespace PromomashInc.Server
             });
             services.AddEndpointsApiExplorer();
             services.AddSwaggerGen();
+
             ConfigureDbContext(services);
             services.AddSingleton(AutoMapperConfig.Configure().CreateMapper());
             services.AddMemoryCache();
@@ -92,8 +91,14 @@ namespace PromomashInc.Server
             services.AddScoped<IDictionaryRepository, DictionaryRepository>();
             services.AddScoped<ICachedDictionaryRepository, CachedDictionaryRepository>();
 
+            services.AddMediatR(cfg =>
+            {
+                cfg.RegisterServicesFromAssemblyContaining<Program>();
+                cfg.RegisterServicesFromAssembly(typeof(CreateUserCommandHandler).Assembly);
+                cfg.Lifetime = ServiceLifetime.Scoped;
+            });
 
-            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+            //services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
             services.AddScoped<IValidator<CreateUserCommand>, CreateUserCommandValidator>();

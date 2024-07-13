@@ -1,6 +1,4 @@
-﻿using System;
-using MediatR;
-using PromomashInc.Helpers.FunctionalResult;
+﻿using MediatR;
 
 namespace PromomashInc.EntitiesDto.Command
 {

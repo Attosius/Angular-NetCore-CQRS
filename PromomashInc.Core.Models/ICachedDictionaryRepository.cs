@@ -1,6 +1,4 @@
-﻿using PromomashInc.Core.Models;
-
-namespace PromomashInc.Core;
+﻿namespace PromomashInc.Core.Models;
 
 public interface ICachedDictionaryRepository : IDictionaryRepository
 {

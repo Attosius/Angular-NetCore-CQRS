@@ -9,7 +9,7 @@ namespace PromomashInc.Tests.UnitTests
     public class DictionaryTests
     {
         private Mock<ILogger<DictionaryController>> _loggerMock;
-        private Mock<IDictionaryRepository> _dictionaryRepositoryMock;
+        private Mock<ICachedDictionaryRepository> _dictionaryRepositoryMock;
         private List<CountryDto> _countryDtos;
         private List<ProvinceDto> _provinceDto;
 
@@ -18,7 +18,7 @@ namespace PromomashInc.Tests.UnitTests
         public void Setup()
         {
             _loggerMock = new Mock<ILogger<DictionaryController>>();
-            _dictionaryRepositoryMock = new Mock<IDictionaryRepository>();
+            _dictionaryRepositoryMock = new Mock<ICachedDictionaryRepository>();
             _countryDtos =
             [
                 new CountryDto
@@ -93,9 +93,9 @@ namespace PromomashInc.Tests.UnitTests
             var result = await dictionaryController.GetProvince("C1");
 
             Assert.IsTrue(result.IsSuccess);
-            Assert.AreEqual(2, result.Value.Count);
-            Assert.AreEqual(_provinceDto[0], result.Value[0]);
-            Assert.AreEqual(_provinceDto[1], result.Value[1]);
+            Assert.That(2 == result.Value.Count);
+            Assert.That(_provinceDto[0] == result.Value[0]);
+            Assert.That(_provinceDto[1] == result.Value[1]);
         }
 
     }

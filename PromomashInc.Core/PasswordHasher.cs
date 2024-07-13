@@ -8,7 +8,7 @@ namespace PromomashInc.Core
     {
         public string GetHash(string password)
         {
-            byte[] salt = RandomNumberGenerator.GetBytes(128 / 8); // divide by 8 to convert bits to bytes
+            var salt = RandomNumberGenerator.GetBytes(128 / 8);
             var hash = Convert.ToBase64String(KeyDerivation.Pbkdf2(
                 password: password,
                 salt: salt,
