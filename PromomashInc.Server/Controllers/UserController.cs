@@ -36,11 +36,19 @@ namespace PromomashInc.Server.Controllers
         }
 
         [HttpPost(nameof(Save))]
-        public async Task<Result> Save([FromBody] UserDto userData)
+        public async Task<Result<int>> Save([FromBody] UserDto userData)
         {
-            var createUserCommand = _mapper.Map<CreateUserCommand>(userData);
-            var id = await _mediator.Send(createUserCommand);
-            return Result.Success();
+            try
+            {
+                var createUserCommand = _mapper.Map<CreateUserCommand>(userData);
+                var id = await _mediator.Send(createUserCommand);
+                return id.ToSuccessResult();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Results error");
+                return e.ToErrorResult<int>(e.Message);
+            }
         }
     }
 }

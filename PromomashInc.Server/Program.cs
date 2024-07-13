@@ -91,9 +91,10 @@ namespace PromomashInc.Server
             services.AddScoped<IDictionaryRepository, DictionaryRepository>();
 
 
-            services.AddScoped<IValidator<CreateUserCommand>, CreateUserCommandValidator>();
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
             services.AddScoped(typeof(IPipelineBehavior<,>), typeof(LoggingBehavior<,>));
+            services.AddScoped(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+            services.AddScoped<IValidator<CreateUserCommand>, CreateUserCommandValidator>();
         }
     }
 }
