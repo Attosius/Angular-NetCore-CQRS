@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PromomashInc.EntitiesDto;
 using PromomashInc.Helpers.FunctionalResult;
-using PromomashInc.Core.Models;
+using PromomashInc.Core;
 
 
 namespace PromomashInc.Server.Controllers
@@ -12,11 +12,11 @@ namespace PromomashInc.Server.Controllers
     {
 
         private readonly ILogger<DictionaryController> _logger;
-        private readonly IDictionaryRepository _dictionaryRepository;
+        private readonly ICachedDictionaryRepository _dictionaryRepository;
 
         public DictionaryController(
             ILogger<DictionaryController> logger,
-            IDictionaryRepository dictionaryRepository
+            ICachedDictionaryRepository dictionaryRepository
             )
         {
             _logger = logger;

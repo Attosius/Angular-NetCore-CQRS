@@ -85,10 +85,12 @@ namespace PromomashInc.Server
             services.AddSwaggerGen();
             ConfigureDbContext(services);
             services.AddSingleton(AutoMapperConfig.Configure().CreateMapper());
-          
+            services.AddMemoryCache();
+
             services.AddScoped<ICustomPasswordHasher, CustomPasswordHasher>();
             services.AddScoped<IUserRepository, UserRepository>();
             services.AddScoped<IDictionaryRepository, DictionaryRepository>();
+            services.AddScoped<ICachedDictionaryRepository, CachedDictionaryRepository>();
 
 
             services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
